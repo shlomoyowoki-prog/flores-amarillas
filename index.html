@@ -134,7 +134,7 @@
       z-index: 1;
     }
 
-    /* Botón flotante de Corazón (Pantalla final) */
+    /* Botón flotante de Corazón */
     .heart-btn {
       position: absolute;
       bottom: 40px;
@@ -203,46 +203,51 @@
 
   <!-- PANTALLA 1: Inicio -->
   <div class="screen-overlay" id="screenIntro">
-    <h1 class="title-main">PARA MI MEJOR AMIGA</h1>
-    <p class="subtitle">¡Feliz 21 de Septiembre! 💛</p>
-    <button class="btn-main" onclick="startFlowers()">Presiona aquí</button>
+    <h1 class="title-main">PARA MI SUPER TWINSITA</h1>
+    <p class="subtitle">¡Feliz 21 de Septiembre twinn! 💛 </p>
+    <button class="btn-main" id="btnStart">Presiona aquí</button>
   </div>
 
-  <!-- PANTALLA 2: Pregunta Interactiva (Aparece tras terminar las flores) -->
+  <!-- PANTALLA 2: Pregunta Interactiva -->
   <div class="screen-overlay hidden" id="screenQuestion">
-    <h2 style="font-size: 2rem; margin-bottom: 10px;">¿Quieres pasar a lo siguiente? 🥺</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 10px;">¿Quieres pasar a lo siguiente? jeje </h2>
     <div class="options-container">
-      <button class="btn-yes" id="btnYes" onclick="goToHeartScreen()">¡Sí!</button>
-      <button class="btn-no" id="btnNo" onclick="handleNoClick()">No</button>
+      <button class="btn-yes" id="btnYes">¡Sí!</button>
+      <button class="btn-no" id="btnNo">No</button>
     </div>
     <div class="persuasion-msg" id="persuasionMsg"></div>
   </div>
 
-  <!-- PANTALLA 3: Botón de Corazón y Frases -->
-  <div class="heart-btn hidden" id="heartBtn" onclick="spawnPhrase()">💖</div>
+  <!-- PANTALLA 3: Botón de Corazón -->
+  <div class="heart-btn hidden" id="heartBtn">💖</div>
 
   <!-- Lienzo interactivo -->
   <canvas id="flowerCanvas"></canvas>
 
   <script>
-    // --- FRASES BONITAS DEL SEGUNDO VIDEO ---
+    // --- FRASES BONITAS ---
     const phrases = [
+      "ADORO tus gustos musicales",
+      "Eres una increible amijisima",
+      "Eres muy pro",
+      "Me encanta que respetas tus limites",
       "Eres hermosa sin esfuerzo.",
       "Tienes una mirada que destaca.",
-      "Tu sonrisa tiene algo especial.",
+      "Tu sonrisa tiene algo especial me meo.",
       "Inteligente y segura, así eres.",
       "Bonita por dentro y por fuera.",
       "Me encanta tu forma de pensar.",
       "Tienes estilo y mucha personalidad.",
       "Eres fuerte, pero también muy dulce.",
       "Brillas sin hacer ruido.",
-      "Tu vibra es de las que se quedan.",
-      "Eres real, y eso vale mucho.",
+      "Tu vibra se quedo en mi.",
+      "Eres real, y eso vale mucho, al menos para mi.",
       "Encantas sin intentarlo.",
-      "Naturalmente linda.",
+      "Naturalmente eres linda.",
       "Siempre de buen gusto.",
       "Sabes estar sin querer llamar la atención.",
       "Eres increíble.",
+      "Eres tan linda como una cancion de My Chemical Romance",
       "Eres única."
     ];
 
@@ -257,7 +262,7 @@
       bubble.innerText = phraseText;
 
       const randomOffset = (Math.random() - 0.5) * 80;
-      bubble.style.transform = translateX(${randomOffset}px);
+      bubble.style.transform = `translateX(${randomOffset}px)`;
 
       document.body.appendChild(bubble);
 
@@ -268,14 +273,14 @@
 
     // --- MENSAJES PARA CONVENCER SI PRESIONA "NO" ---
     const persuasionMessages = [
-      "¿Segura? Piénsalo bien... 🥺",
-      "¡Por favor di que sí! 🙏",
+      "¿Segura? Twin piénsalo bien... 🥺",
+      "¡Por favor di que sí TT!",
       "¡Dale al Sí, te va a gustar! ✨",
-      "¡Anda, no te hagas del rogar! 🙈",
+      "¡Anda, no te hagas del rogar ! 🙈",
       "¿De verdad presionarás que no otra vez? 💔",
-      "¡El botón verde se ve más bonito! 💚",
+      "¡El botón verde se ve más bonito eh jeje!",
       "¡Prometo que vale la pena! 🌟",
-      "¡Ya casi no puedes presionar el No! 😂"
+      "¡Ya casi no puedes presionar el No! JAKSHA"
     ];
 
     let noClickCount = 0;
@@ -285,7 +290,6 @@
     function handleNoClick() {
       noClickCount++;
 
-      // Reducir tamaño del No y aumentar tamaño del Sí
       if (noScale > 0.25) noScale -= 0.12;
       yesScale += 0.15;
 
@@ -293,13 +297,20 @@
       const btnYes = document.getElementById('btnYes');
       const msgDiv = document.getElementById('persuasionMsg');
 
-      btnNo.style.transform = scale(${noScale});
-      btnYes.style.transform = scale(${yesScale});
+      btnNo.style.transform = `scale(${noScale})`;
+      btnYes.style.transform = `scale(${yesScale})`;
 
-      // Mostrar mensaje persuasivo
       const msgIndex = Math.min(noClickCount - 1, persuasionMessages.length - 1);
       msgDiv.innerText = persuasionMessages[msgIndex];
     }
+
+    // --- CONFIGURACIÓN DE EVENTOS PARA LOS BOTONES ---
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('btnStart').addEventListener('click', startFlowers);
+      document.getElementById('btnYes').addEventListener('click', goToHeartScreen);
+      document.getElementById('btnNo').addEventListener('click', handleNoClick);
+      document.getElementById('heartBtn').addEventListener('click', spawnPhrase);
+    });
 
     // --- FLUJO DE PANTALLAS ---
     function startFlowers() {
@@ -328,7 +339,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Fondo de estrellas parpadeantes
     const stars = Array.from({ length: 150 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
@@ -340,7 +350,7 @@
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(255, 255, 255, ${star.alpha});
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
         ctx.fill();
         star.alpha += (Math.random() - 0.5) * 0.02;
         if (star.alpha < 0.2) star.alpha = 0.2;
@@ -359,7 +369,6 @@
       ctx.translate(centerX, centerY);
       ctx.scale(scale, scale);
 
-      // Tallo
       ctx.beginPath();
       ctx.moveTo(0, 150);
       ctx.quadraticCurveTo(-10, 75, 0, 0);
@@ -367,7 +376,6 @@
       ctx.lineWidth = 6;
       ctx.stroke();
 
-      // Hojas
       if (progressVal > 0.3) {
         let leafProgress = Math.min((progressVal - 0.3) / 0.3, 1);
         ctx.fillStyle = '#236e3e';
@@ -381,7 +389,6 @@
         ctx.fill();
       }
 
-      // Pétalos
       if (progressVal > 0.5) {
         let flowerScale = Math.min((progressVal - 0.5) / 0.5, 1);
         const petalCount = 12;
@@ -397,7 +404,6 @@
           ctx.restore();
         }
 
-        // Centro
         ctx.beginPath();
         ctx.arc(0, 0, 18 * flowerScale, 0, Math.PI * 2);
         ctx.fillStyle = '#5d4037';
@@ -413,10 +419,10 @@
 
       if (animating) {
         if (progress < 1) {
-          progress += 0.007; // Velocidad de crecimiento
+          progress += 0.007;
         } else if (!questionShown) {
           questionShown = true;
-          setTimeout(showQuestionScreen, 600); // Muestra la pregunta tras florecer completamente
+          setTimeout(showQuestionScreen, 600);
         }
 
         const centerX = canvas.width / 2;
