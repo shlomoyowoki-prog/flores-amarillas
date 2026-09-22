@@ -3,451 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flores Amarillas para ti 🌼✨</title>
+  <title>Para mi mejor amiga</title>
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      background-color: #0b0d17;
-      color: #ffffff;
+      background-color: #0d1117;
+      color: #f0f6fc;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Contenedor universal de pantallas */
-    .screen-overlay {
-      position: absolute;
-      z-index: 20;
-      text-align: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
       padding: 20px;
+      text-align: center;
     }
 
-    .hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    .container {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 30px 20px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
     }
 
-    /* Títulos e instrucciones */
-    .title-main {
-      font-size: 2.8rem;
+    h1 {
+      font-size: 1.8rem;
       font-weight: 800;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      color: #ffffff;
+      margin-bottom: 6px;
     }
 
     .subtitle {
-      font-size: 1.2rem;
-      color: #cccccc;
-      margin-bottom: 25px;
-      font-weight: 300;
+      font-size: 1.1rem;
+      color: #f1e05a;
+      margin-bottom: 8px;
     }
 
-    /* Botones principales */
-    .btn-main {
-      background: linear-gradient(135deg, #1e50ff 0%, #0022a1 100%);
-      color: #ffffff;
-      border: none;
-      padding: 12px 30px;
+    .tag {
+      display: inline-block;
+      background: rgba(241, 224, 90, 0.15);
+      color: #fcd34d;
+      font-size: 0.9rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* Animación del Girasol */
+    .flower-box {
+      width: 220px;
+      height: 260px;
+      margin: 0 auto 20px auto;
+    }
+
+    .stem, .leaf, .petal, .center {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawFlower 3.5s forwards ease-in-out;
+    }
+
+    .leaf { animation-delay: 0.8s; }
+    .petal { animation-delay: 1.8s; }
+    .center { animation-delay: 3s; }
+
+    @keyframes drawFlower {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* Botón con alto contraste */
+    .btn-next {
+      background-color: #00d2fe;
+      color: #0d1117;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: bold;
+      border: none;
+      padding: 12px 28px;
       border-radius: 25px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(30, 80, 255, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 15px rgba(0, 210, 254, 0.4);
+      transition: transform 0.2s, background-color 0.2s;
     }
 
-    .btn-main:hover {
+    .btn-next:hover {
+      background-color: #52e0ff;
       transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(30, 80, 255, 0.6);
     }
 
-    /* Botones de opción (Sí / No) */
-    .options-container {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
-      margin-top: 15px;
-      flex-wrap: wrap;
+    .hidden {
+      display: none;
     }
 
-    .btn-yes {
-      background: #28a745;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-      transition: all 0.3s ease;
-    }
-
-    .btn-no {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-      transition: all 0.3s ease;
-    }
-
-    .persuasion-msg {
-      margin-top: 15px;
-      font-size: 1.1rem;
-      color: #ffeb3b;
-      font-weight: 600;
-      min-height: 25px;
-    }
-
-    /* Canvas para fondo y animaciones */
-    #flowerCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    /* Botón flotante de Corazón */
-    .heart-btn {
-      position: absolute;
-      bottom: 40px;
-      z-index: 15;
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      background: rgba(255, 105, 180, 0.3);
-      border: 2px solid rgba(255, 182, 193, 0.7);
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2.2rem;
-      cursor: pointer;
-      box-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
-      transition: transform 0.2s, opacity 0.8s ease;
-      user-select: none;
-    }
-
-    .heart-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .heart-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* Burbujas de Frases */
-    .phrase-bubble {
-      position: absolute;
-      bottom: 130px;
-      z-index: 25;
-      background: rgba(255, 255, 255, 0.9);
-      color: #222222;
-      padding: 12px 24px;
-      border-radius: 20px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      animation: floatUp 3.5s forwards ease-out;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    @keyframes floatUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.8);
-      }
-      15% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-130px) scale(0.95);
-      }
+    /* Recadro de mensaje secundario para alto contraste */
+    .message-card {
+      margin-top: 20px;
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-left: 4px solid #f1e05a;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #f0f6fc;
+      text-align: left;
     }
   </style>
 </head>
 <body>
 
-  <!-- PANTALLA 1: Inicio -->
-  <div class="screen-overlay" id="screenIntro">
-    <h1 class="title-main">PARA MI SUPER TWINSITAA</h1>
-    <p class="subtitle">¡Feliz 21 de Septiembre twinn! 💛 </p>
-    <button class="btn-main" id="btnStart">Presiona aquí</button>
-  </div>
+  <div class="container">
+    <h1>PARA MI MEJOR AMIGA</h1>
+    <div class="subtitle">¡Feliz 21 de Septiembre! ❤️</div>
+    <div class="tag">Para mi Twincita ✨</div>
 
-  <!-- PANTALLA 2: Pregunta Interactiva -->
-  <div class="screen-overlay hidden" id="screenQuestion">
-    <h2 style="font-size: 2rem; margin-bottom: 10px;">¿Quieres pasar a lo siguiente? jeje </h2>
-    <div class="options-container">
-      <button class="btn-yes" id="btnYes">¡Sí!</button>
-      <button class="btn-no" id="btnNo">No</button>
+    <!-- Animación Dibujada del Girasol -->
+    <div class="flower-box">
+      <svg viewBox="0 0 200 240" width="100%" height="100%">
+        <!-- Tallo -->
+        <path class="stem" d="M100 230 Q105 160 100 100" stroke="#4ade80" stroke-width="6" fill="none" stroke-linecap="round"/>
+        
+        <!-- Hojas -->
+        <path class="leaf" d="M101 170 Q60 160 50 140 Q75 135 101 160" stroke="#22c55e" stroke-width="3" fill="#22c55e" />
+        <path class="leaf" d="M100 150 Q140 140 150 120 Q125 115 100 140" stroke="#22c55e" stroke-width="3" fill="#22c55e" />
+
+        <!-- Pétalos -->
+        <g class="petal" stroke="#d97706" stroke-width="2" fill="#fbbf24">
+          <path d="M100 80 Q100 20 100 35 Q100 50 100 80" />
+          <path d="M100 80 Q125 25 120 38 Q110 50 100 80" />
+          <path d="M100 80 Q145 40 135 55 Q120 65 100 80" />
+          <path d="M100 80 Q155 65 142 80 Q125 85 100 80" />
+          <path d="M100 80 Q150 95 135 105 Q120 100 100 80" />
+          <path d="M100 80 Q130 120 118 122 Q108 110 100 80" />
+          <path d="M100 80 Q100 135 100 125 Q100 110 100 80" />
+          <path d="M100 80 Q70 120 82 122 Q92 110 100 80" />
+          <path d="M100 80 Q50 95 65 105 Q80 100 100 80" />
+          <path d="M100 80 Q45 65 58 80 Q75 85 100 80" />
+          <path d="M100 80 Q55 40 65 55 Q80 65 100 80" />
+          <path d="M100 80 Q75 25 80 38 Q90 50 100 80" />
+        </g>
+
+        <!-- Centro -->
+        <circle class="center" cx="100" cy="80" r="22" fill="#78350f" stroke="#451a03" stroke-width="3" />
+      </svg>
     </div>
-    <div class="persuasion-msg" id="persuasionMsg"></div>
+
+    <!-- Botón para la segunda pantalla/mensaje -->
+    <button id="btnContinue" class="btn-next" onclick="mostrarMensaje()">Presiona aquí</button>
+
+    <!-- Contenido que aparece al presionar el botón -->
+    <div id="extraMessage" class="message-card hidden">
+      <p>🌻 Te quiero muchísimo, Twincita. Gracias por ser una persona tan especial en mi vida.</p>
+    </div>
   </div>
-
-  <!-- PANTALLA 3: Botón de Corazón -->
-  <div class="heart-btn hidden" id="heartBtn">💖</div>
-
-  <!-- Lienzo interactivo -->
-  <canvas id="flowerCanvas"></canvas>
 
   <script>
-    // --- FRASES BONITAS ---
-    const phrases = [
-      "ADORO tus gustos musicales",
-      "Eres una increible amijisima",
-      "Eres muy pro",
-      "Me encanta que respetas tus limites",
-      "Eres hermosa sin esfuerzo.",
-      "Tienes una mirada que destaca.",
-      "Tu sonrisa tiene algo especial me meo.",
-      "Inteligente y segura, así eres.",
-      "Bonita por dentro y por fuera.",
-      "Me encanta tu forma de pensar.",
-      "Tienes estilo y mucha personalidad.",
-      "Eres fuerte, pero también muy dulce.",
-      "Brillas sin hacer ruido.",
-      "Tu vibra se quedo en mi.",
-      "Eres real, y eso vale mucho, al menos para mi.",
-      "Encantas sin intentarlo.",
-      "Naturalmente eres linda.",
-      "Siempre de buen gusto.",
-      "Sabes estar sin querer llamar la atención.",
-      "Eres increíble.",
-      "Eres tan linda como una cancion de My Chemical Romance",
-      "Eres única."
-    ];
-
-    let phraseIndex = 0;
-
-    function spawnPhrase() {
-      const phraseText = phrases[phraseIndex];
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-
-      const bubble = document.createElement('div');
-      bubble.className = 'phrase-bubble';
-      bubble.innerText = phraseText;
-
-      const randomOffset = (Math.random() - 0.5) * 80;
-      bubble.style.transform = `translateX(${randomOffset}px)`;
-
-      document.body.appendChild(bubble);
-
-      setTimeout(() => {
-        bubble.remove();
-      }, 3500);
+    function mostrarMensaje() {
+      document.getElementById('extraMessage').classList.remove('hidden');
+      document.getElementById('btnContinue').style.display = 'none';
     }
-
-    // --- MENSAJES PARA CONVENCER SI PRESIONA "NO" ---
-    const persuasionMessages = [
-      "¿Segura? Twin piénsalo bien... 🥺",
-      "¡Por favor di que sí TT!",
-      "¡Dale al Sí, te va a gustar! ✨",
-      "¡Anda, no te hagas del rogar ! 🙈",
-      "¿De verdad presionarás que no otra vez? 💔",
-      "¡El botón verde se ve más bonito eh jeje!",
-      "¡Prometo que vale la pena! 🌟",
-      "¡Ya casi no puedes presionar el No! JAKSHA"
-    ];
-
-    let noClickCount = 0;
-    let noScale = 1;
-    let yesScale = 1;
-
-    function handleNoClick() {
-      noClickCount++;
-
-      if (noScale > 0.25) noScale -= 0.12;
-      yesScale += 0.15;
-
-      const btnNo = document.getElementById('btnNo');
-      const btnYes = document.getElementById('btnYes');
-      const msgDiv = document.getElementById('persuasionMsg');
-
-      btnNo.style.transform = `scale(${noScale})`;
-      btnYes.style.transform = `scale(${yesScale})`;
-
-      const msgIndex = Math.min(noClickCount - 1, persuasionMessages.length - 1);
-      msgDiv.innerText = persuasionMessages[msgIndex];
-    }
-
-    // --- CONFIGURACIÓN DE EVENTOS PARA LOS BOTONES ---
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('btnStart').addEventListener('click', startFlowers);
-      document.getElementById('btnYes').addEventListener('click', goToHeartScreen);
-      document.getElementById('btnNo').addEventListener('click', handleNoClick);
-      document.getElementById('heartBtn').addEventListener('click', spawnPhrase);
-    });
-
-    // --- FLUJO DE PANTALLAS ---
-    function startFlowers() {
-      document.getElementById('screenIntro').classList.add('hidden');
-      animating = true;
-      animate();
-    }
-
-    function showQuestionScreen() {
-      document.getElementById('screenQuestion').classList.remove('hidden');
-    }
-
-    function goToHeartScreen() {
-      document.getElementById('screenQuestion').classList.add('hidden');
-      document.getElementById('heartBtn').classList.remove('hidden');
-    }
-
-    // --- CANVAS ANIMACIÓN DE GIRASOLES ---
-    const canvas = document.getElementById('flowerCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    const stars = Array.from({ length: 150 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      radius: Math.random() * 1.5 + 0.5,
-      alpha: Math.random()
-    }));
-
-    function drawStars() {
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-        ctx.fill();
-        star.alpha += (Math.random() - 0.5) * 0.02;
-        if (star.alpha < 0.2) star.alpha = 0.2;
-        if (star.alpha > 1) star.alpha = 1;
-      });
-    }
-
-    let progress = 0;
-    let animating = false;
-    let questionShown = false;
-
-    function drawSunflower(centerX, centerY, scale, progressVal) {
-      if (progressVal <= 0) return;
-
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.scale(scale, scale);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 150);
-      ctx.quadraticCurveTo(-10, 75, 0, 0);
-      ctx.strokeStyle = '#2d8a4e';
-      ctx.lineWidth = 6;
-      ctx.stroke();
-
-      if (progressVal > 0.3) {
-        let leafProgress = Math.min((progressVal - 0.3) / 0.3, 1);
-        ctx.fillStyle = '#236e3e';
-        
-        ctx.beginPath();
-        ctx.ellipse(-22 * leafProgress, 70, 25 * leafProgress, 10 * leafProgress, -Math.PI / 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(22 * leafProgress, 90, 25 * leafProgress, 10 * leafProgress, Math.PI / 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      if (progressVal > 0.5) {
-        let flowerScale = Math.min((progressVal - 0.5) / 0.5, 1);
-        const petalCount = 12;
-        ctx.fillStyle = '#fbc02d';
-
-        for (let i = 0; i < petalCount; i++) {
-          let angle = (i * Math.PI * 2) / petalCount;
-          ctx.save();
-          ctx.rotate(angle);
-          ctx.beginPath();
-          ctx.ellipse(0, -32 * flowerScale, 12 * flowerScale, 30 * flowerScale, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-
-        ctx.beginPath();
-        ctx.arc(0, 0, 18 * flowerScale, 0, Math.PI * 2);
-        ctx.fillStyle = '#5d4037';
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawStars();
-
-      if (animating) {
-        if (progress < 1) {
-          progress += 0.007;
-        } else if (!questionShown) {
-          questionShown = true;
-          setTimeout(showQuestionScreen, 600);
-        }
-
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2 + 50;
-
-        drawSunflower(centerX, centerY, 1.2, progress);
-
-        if (progress > 0.2) {
-          drawSunflower(centerX - 130, centerY + 30, 0.9, (progress - 0.2) * 1.25);
-        }
-
-        if (progress > 0.35) {
-          drawSunflower(centerX + 130, centerY + 30, 0.9, (progress - 0.35) * 1.5);
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    function init() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawStars();
-      if (!animating) requestAnimationFrame(init);
-    }
-    init();
   </script>
+
 </body>
 </html>
